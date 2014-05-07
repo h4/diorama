@@ -21,7 +21,13 @@ window.addEventListener('DOMContentLoaded', function() {
             Array.prototype.forEach.call(this.row, function($row) {
                 var rowWidth = parseInt(getComputedStyle($row).width);
                 var rowDeltaX = (e.x / width) * rowWidth - e.x;
-                $row.style.left = - rowDeltaX + "px";
+                $($row).animate({
+                    left: -rowDeltaX
+                }, {
+                    queue: false,
+                    duration: 2000,
+                    easing: "easeOutExpo"
+                })
             });
 
         };
@@ -30,9 +36,3 @@ window.addEventListener('DOMContentLoaded', function() {
         (new Diorama($el)).init();
     });
 });
-
-
-/**
-    mx | w / 2
-    rx | r / 2
- */
