@@ -1,30 +1,38 @@
 "use strict";
 
 window.addEventListener('DOMContentLoaded', function() {
-    var diarama = document.querySelectorAll('.diarama');
-    function Diarama($root) {
+    var diorama = document.querySelectorAll('.diorama');
+    function Diorama($root) {
         this.prevX = undefined;
-        this.items = undefined;
         this.row = undefined;
         this.init = function() {
-            this.items = $root.querySelectorAll('.diarama__item');
-            this.row = $root.querySelectorAll('.diarama__row');
+            this.row = $root.querySelectorAll('.diorama__row');
+            Array.prototype.forEach.call(this.row, function($row) {
+                $row.style.left = -parseInt(getComputedStyle($row).width) / 2 + "px";
+            });
             $root.addEventListener('mousemove', this.mouseHandler.bind(this));
-            console.log(this.items);
         };
         this.mouseHandler = function(e) {
             if (this.prevX == undefined) {
                 this.prevX = e.x;
                 return;
             }
-            var deltaX = this.prevX - e.x;
+            var width = window.innerWidth;
             Array.prototype.forEach.call(this.row, function($row) {
-
+                var rowWidth = parseInt(getComputedStyle($row).width);
+                var rowDeltaX = (e.x / width) * rowWidth - e.x;
+                $row.style.left = - rowDeltaX + "px";
             });
-            this.row[0].style.left = deltaX + 'px';
+
         };
     }
-    Array.prototype.forEach.call(diarama, function($el) {
-        (new Diarama($el)).init();
+    Array.prototype.forEach.call(diorama, function($el) {
+        (new Diorama($el)).init();
     });
 });
+
+
+/**
+    mx | w / 2
+    rx | r / 2
+ */
