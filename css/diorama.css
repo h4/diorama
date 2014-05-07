@@ -2,19 +2,19 @@
     overflow: hidden;
 }
 
-.diarama {
+.diorama {
     position: relative;
     left: 50%;
     width: 10000px;
     margin-left: -5000px;
 }
 
-.diarama__row {
+.diorama__row {
     position: relative;
     text-align: center;
 }
 
-.diarama__item {
+.diorama__item {
     display: inline-block;
     width: 400px;
     height: 500px;
