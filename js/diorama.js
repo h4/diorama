@@ -1,7 +1,11 @@
 "use strict";
 
 (function(window, document, $, _, undefined) {
-    var defaults = {};
+    var defaults = {
+        duration: 2000,
+        easing: "easeOutExpo",
+        throttleTime: 100
+    };
 
     $.Diorama = function($root, options) {
         this.$row = undefined;
@@ -15,7 +19,7 @@
                 $this.css('left', - $this.width() / 2);
             });
 
-            $root.on('mousemove', _.throttle($.proxy(this.mouseHandler, this), 100));
+            $root.on('mousemove', _.throttle($.proxy(this.mouseHandler, this), options.throttleTime));
 
             return this;
         };
@@ -31,8 +35,8 @@
                     left: -rowDeltaX
                 }, {
                     queue: false,
-                    duration: 2000,
-                    easing: "easeOutExpo"
+                    duration: options.duration,
+                    easing: options.easing
                 });
             });
         };
