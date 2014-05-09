@@ -6,12 +6,12 @@ body {
     overflow: hidden;
 }
 
-.diorama {
+.diorama__wrapper {
     position: relative;
     width: 10000px;
     height: 500px;
 }
-.diorama::after {
+.diorama__wrapper::after {
     content: "";
     display: block;
     height: 0;
