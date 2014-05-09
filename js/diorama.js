@@ -1,38 +1,54 @@
 "use strict";
 
-window.addEventListener('DOMContentLoaded', function() {
-    var diorama = document.querySelectorAll('.diorama');
-    function Diorama($root) {
-        this.prevX = undefined;
-        this.row = undefined;
+(function(window, document, $, _, undefined) {
+    var defaults = {};
+
+    $.Diorama = function($root, options) {
+        this.$row = undefined;
+
         this.init = function() {
-            this.row = $root.querySelectorAll('.diorama__row');
-            Array.prototype.forEach.call(this.row, function($row) {
-                $row.style.left = -parseInt(getComputedStyle($row).width) / 2 + "px";
+            this.$row = $('.diorama__row', $root);
+
+            this.$row.each(function() {
+                var $this = $(this);
+                $this.css('left', $this.width() / 2);
             });
-            $root.addEventListener('mousemove', _.throttle(this.mouseHandler.bind(this), 100));
+
+            $root.on('mousemove', _.throttle($.proxy(this.mouseHandler, this), 100));
+
+            return this;
         };
         this.mouseHandler = function(e) {
-            if (this.prevX == undefined) {
-                this.prevX = e.x;
-                return;
-            }
-            var width = window.innerWidth;
-            Array.prototype.forEach.call(this.row, function($row) {
-                var rowWidth = parseInt(getComputedStyle($row).width);
-                var rowDeltaX = (e.x / width) * rowWidth - e.x;
+            var windowWidth = window.innerWidth;
 
-                $($row).animate({
+            this.$row.each(function() {
+                var mouseX = e.clientX;
+                var rowWidth = $(this).width();
+                var rowDeltaX = (mouseX / windowWidth) * rowWidth - mouseX;
+
+                $(this).animate({
                     left: -rowDeltaX
-                    }, {
-                        queue: false,
-                        duration: 2000,
-                        easing: "easeOutExpo"
-                    });
+                }, {
+                    queue: false,
+                    duration: 2000,
+                    easing: "easeOutExpo"
+                });
             });
         };
-    }
-    Array.prototype.forEach.call(diorama, function($el) {
-        (new Diorama($el)).init();
-    });
-});
+    };
+
+    $.fn.diorama = function(options) {
+        return this.each(function() {
+            var $item = $(this);
+            var itemData = $item.data();
+            var instanceOpts = $.extend(
+                {},
+                defaults,
+                options,
+                itemData
+            );
+
+            return new $.Diorama($item, instanceOpts).init();
+        });
+    };
+})(window, document, jQuery, _, undefined);
