@@ -5,6 +5,7 @@
 
     $.Diorama = function($root, options) {
         this.$row = undefined;
+        this.containerWidth = $root.width();
 
         this.init = function() {
             this.$row = $('.diorama__row', $root);
@@ -19,12 +20,12 @@
             return this;
         };
         this.mouseHandler = function(e) {
-            var windowWidth = window.innerWidth;
+            var frameWidth = this.containerWidth;
 
             this.$row.each(function() {
                 var mouseX = e.clientX;
                 var rowWidth = $(this).width();
-                var rowDeltaX = (mouseX / windowWidth) * rowWidth - mouseX;
+                var rowDeltaX = (mouseX / frameWidth) * rowWidth - mouseX;
 
                 $(this).animate({
                     left: -rowDeltaX
