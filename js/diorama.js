@@ -11,7 +11,7 @@
 
             this.$row.each(function() {
                 var $this = $(this);
-                $this.css('left', $this.width() / 2);
+                $this.css('left', - $this.width() / 2);
             });
 
             $root.on('mousemove', _.throttle($.proxy(this.mouseHandler, this), 100));
