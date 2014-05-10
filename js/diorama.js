@@ -12,11 +12,13 @@
         this.containerWidth = $root.width();
 
         this.init = function() {
+            var containerWidth = this.containerWidth;
             this.$row = $('.diorama__row', $root);
 
             this.$row.each(function() {
                 var $this = $(this);
-                $this.css('left', - $this.width() / 2);
+                var left = containerWidth / 2 - $this.width() / 2;
+                $this.css('left', left);
             });
 
             $root.on('mousemove', _.throttle($.proxy(this.mouseHandler, this), options.throttleTime));
